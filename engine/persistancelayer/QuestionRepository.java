@@ -19,4 +19,7 @@ public class QuestionRepository {
         questions.add(question);
         return question;
     }
+    public List<Question> getAllQuestions() {
+        return questions;
+    }
 }

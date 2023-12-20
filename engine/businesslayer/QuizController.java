@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class QuizController {
     QuestionService questionService;
@@ -22,6 +24,12 @@ public class QuizController {
     ResponseEntity<Question> addQuestion(@RequestBody Question question) {
 
         return ResponseEntity.ok(questionService.save(question));
+    }
+
+    @GetMapping("/api/quizzes")
+    ResponseEntity<List<Question>> getQuestions() {
+        List<Question> questions = questionService.getQuestions();
+        return questions.isEmpty() ? ResponseEntity.notFound().build(): ResponseEntity.ok(questionService.getQuestions());
     }
 
     @GetMapping("/api/quizzes/{id}")
