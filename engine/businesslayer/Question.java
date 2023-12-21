@@ -1,8 +1,6 @@
 package engine.businesslayer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.stereotype.Component;
 
 
 public class Question {
@@ -13,7 +11,7 @@ public class Question {
     String text;
     String[] options;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    int correctAnswer;
+    int answer;
 
     public Question() {
         id = ++count;
@@ -24,7 +22,7 @@ public class Question {
         this.title = title;
         this.text = text;
         this.options = options;
-        this.correctAnswer = correctAnswer;
+        this.answer = correctAnswer;
     }
 
     public String getTitle() {
@@ -39,7 +37,7 @@ public class Question {
         return options;
     }
 
-    public int getCorrectAnswer() {
-        return correctAnswer;
+    public int getAnswer() {
+        return answer;
     }
 }

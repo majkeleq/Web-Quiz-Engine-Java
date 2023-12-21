@@ -1,7 +1,6 @@
 package engine.businesslayer;
 
-import engine.businesslayer.Question;
-import engine.businesslayer.QuestionResponse;
+import engine.exceptions.QuizNotFoundException;
 import engine.persistancelayer.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +24,9 @@ public class QuestionService {
         QuestionResponse questionResponse = new QuestionResponse();
         Question question = questionRepository.findById(id);
         if (question == null) {
-            return null;
+            throw new QuizNotFoundException("Quiz with id " + id + " not found");
         } else {
-            if (answer == question.getCorrectAnswer()) {
+            if (answer == question.getAnswer()) {
                 questionResponse.setSuccess(true);
                 questionResponse.setFeedback("Congratulations, you're right!");
             } else {
