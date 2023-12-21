@@ -25,8 +25,7 @@ public class QuizController {
 
     @GetMapping("/api/quizzes")
     ResponseEntity<List<Question>> getQuestions() {
-        List<Question> questions = questionService.getQuestions();
-        return questions.isEmpty() ? ResponseEntity.notFound().build(): ResponseEntity.ok(questionService.getQuestions());
+        return ResponseEntity.ok(questionService.getQuestions());
     }
 
     @GetMapping("/api/quizzes/{id}")
