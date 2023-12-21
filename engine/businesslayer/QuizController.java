@@ -9,42 +9,42 @@ import java.util.List;
 
 @RestController
 public class QuizController {
-    QuestionService questionService;
+    QuizService quizService;
 
     @Autowired
-    public QuizController(QuestionService questionService) {
-        this.questionService = questionService;
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
     }
 
 
     @PostMapping("/api/quizzes")
-    ResponseEntity<Question> addQuestion(@RequestBody Question question) {
+    ResponseEntity<Quiz> addQuizz(@RequestBody Quiz quiz) {
 
-        return ResponseEntity.ok(questionService.save(question));
+        return ResponseEntity.ok(quizService.save(quiz));
     }
 
     @GetMapping("/api/quizzes")
-    ResponseEntity<List<Question>> getQuestions() {
-        return ResponseEntity.ok(questionService.getQuestions());
+    ResponseEntity<List<Quiz>> getQuizzes() {
+        return ResponseEntity.ok(quizService.getQuizzes());
     }
 
     @GetMapping("/api/quizzes/{id}")
-    ResponseEntity<Question> getQuestion(@PathVariable int id) {
-        Question question = questionService.getQuestion(id);
-        if (question == null) {
+    ResponseEntity<Quiz> getQuizz(@PathVariable int id) {
+        Quiz quiz = quizService.getQuizz(id);
+        if (quiz == null) {
             throw new QuizNotFoundException("Quiz with id = " + id + " not found");
         } else {
-            return ResponseEntity.ok(question);
+            return ResponseEntity.ok(quiz);
         }
     }
 
     @PostMapping("/api/quizzes/{id}/solve")
-    ResponseEntity<QuestionResponse> solveQuestion(@PathVariable int id, @RequestParam int answer) {
-        QuestionResponse questionResponse = questionService.checkAnswer(id, answer);
-        if (questionResponse == null) {
+    ResponseEntity<QuizResponse> solveQuizz(@PathVariable int id, @RequestParam int answer) {
+        QuizResponse quizResponse = quizService.checkAnswer(id, answer);
+        if (quizResponse == null) {
             throw new QuizNotFoundException("Quiz with id " + id + " not found");
         } else {
-            return ResponseEntity.ok(questionResponse);
+            return ResponseEntity.ok(quizResponse);
         }
     }
 }

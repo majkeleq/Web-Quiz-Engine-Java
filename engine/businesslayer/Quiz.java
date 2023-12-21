@@ -3,7 +3,7 @@ package engine.businesslayer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class Question {
+public class Quiz {
     private static int count = 0;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     int id;
@@ -13,11 +13,11 @@ public class Question {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     int answer;
 
-    public Question() {
+    public Quiz() {
         id = ++count;
     }
 
-    public Question(String title, String text, String[] options, int correctAnswer) {
+    public Quiz(String title, String text, String[] options, int correctAnswer) {
         id = ++count;
         this.title = title;
         this.text = text;
