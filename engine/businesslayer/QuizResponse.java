@@ -3,11 +3,11 @@ package engine.businesslayer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class QuestionResponse {
+public class QuizResponse {
     boolean success;
     String feedback;
 
-    public QuestionResponse() {
+    public QuizResponse() {
     }
 
     public boolean isSuccess() {
