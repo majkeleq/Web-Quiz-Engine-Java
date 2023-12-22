@@ -17,10 +17,11 @@ public class Quiz {
     @NotEmpty
     String text;
     @Size(min = 2)
+    @NotEmpty
     List<String> options;
     @NotNull
     @JsonProperty(value = "answer", access = JsonProperty.Access.WRITE_ONLY)
-     List<Integer> answers;
+    List<Integer> answers;
 
     public Quiz() {
         id = ++count;
