@@ -2,7 +2,6 @@ package engine.businesslayer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,9 +18,9 @@ public class Quiz {
     String text;
     @Size(min = 2)
     List<String> options;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
-    List<Integer> answer;
+    @JsonProperty(value = "answer", access = JsonProperty.Access.WRITE_ONLY)
+     List<Integer> answers;
 
     public Quiz() {
         id = ++count;
@@ -32,7 +31,7 @@ public class Quiz {
         this.title = title;
         this.text = text;
         this.options = options;
-        this.answer = correctAnswer;
+        this.answers = correctAnswer;
     }
 
     public String getTitle() {
@@ -47,7 +46,7 @@ public class Quiz {
         return options;
     }
 
-    public List<Integer> getAnswer() {
-        return answer;
+    public List<Integer> getAnswers() {
+        return answers;
     }
 }

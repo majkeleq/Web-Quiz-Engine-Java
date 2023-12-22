@@ -39,7 +39,7 @@ public class QuizController {
     }
 
     @PostMapping("/api/quizzes/{id}/solve")
-    ResponseEntity<QuizResponse> solveQuizz(@PathVariable int id, @RequestParam List<Integer> answer) {
+    ResponseEntity<QuizResponse> solveQuizz(@PathVariable int id, @RequestBody Answer answer) {
         QuizResponse quizResponse = quizService.checkAnswer(id, answer);
         if (quizResponse == null) {
             throw new QuizNotFoundException("Quiz with id " + id + " not found");

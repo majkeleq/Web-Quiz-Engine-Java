@@ -20,13 +20,13 @@ public class QuizService {
     public Quiz getQuizz(int id) {
         return quizRepository.findById(id);
     }
-    public QuizResponse checkAnswer(int id, List<Integer> answer) {
+    public QuizResponse checkAnswer(int id, Answer answer) {
         QuizResponse quizResponse = new QuizResponse();
         Quiz quiz = quizRepository.findById(id);
         if (quiz == null) {
             throw new QuizNotFoundException("Quiz with id " + id + " not found");
         } else {
-            if (answer.equals(quiz.getAnswer())) {
+            if (answer.getAnswers().equals(quiz.getAnswers())) {
                 quizResponse.setSuccess(true);
                 quizResponse.setFeedback("Congratulations, you're right!");
             } else {
