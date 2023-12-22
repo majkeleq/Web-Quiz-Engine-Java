@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,8 +19,8 @@ public class QuizController {
 
 
     @PostMapping("/api/quizzes")
-    ResponseEntity<Quiz> addQuizz(@RequestBody Quiz quiz) {
-
+    ResponseEntity<Quiz> addQuizz(@Valid @RequestBody Quiz quiz) {
+        quiz.afterValidation();
         return ResponseEntity.ok(quizService.save(quiz));
     }
 
@@ -39,7 +40,7 @@ public class QuizController {
     }
 
     @PostMapping("/api/quizzes/{id}/solve")
-    ResponseEntity<QuizResponse> solveQuizz(@PathVariable int id, @RequestParam int answer) {
+    ResponseEntity<QuizResponse> solveQuizz(@PathVariable int id, @RequestBody Answer answer) {
         QuizResponse quizResponse = quizService.checkAnswer(id, answer);
         if (quizResponse == null) {
             throw new QuizNotFoundException("Quiz with id " + id + " not found");
