@@ -20,7 +20,7 @@ public class QuizController {
 
     @PostMapping("/api/quizzes")
     ResponseEntity<Quiz> addQuizz(@Valid @RequestBody Quiz quiz) {
-        quiz.setId();
+        quiz.afterValidation();
         return ResponseEntity.ok(quizService.save(quiz));
     }
 

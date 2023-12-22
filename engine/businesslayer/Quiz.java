@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,7 +20,6 @@ public class Quiz {
     @Size(min = 2)
     @NotNull
     List<String> options;
-    @NotNull
     @JsonProperty(value = "answer", access = JsonProperty.Access.WRITE_ONLY)
     List<Integer> answers;
 
@@ -51,7 +51,10 @@ public class Quiz {
         return answers;
     }
 
-    public void setId() {
+    public void afterValidation() {
         id = ++count;
+        if (answers == null) {
+            answers = new ArrayList<>();
+        }
     }
 }
