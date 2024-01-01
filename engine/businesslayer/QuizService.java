@@ -5,8 +5,6 @@ import engine.persistancelayer.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 
 public class QuizService {
@@ -17,12 +15,12 @@ public class QuizService {
         this.quizRepository = quizRepository;
     }
 
-    public Quiz getQuizz(int id) {
-        return quizRepository.findById(id);
+    public Quiz getQuizz(Long id) {
+        return quizRepository.findById(id).orElseThrow(() -> new QuizNotFoundException("Quiz with id " + id + " not found"));
     }
-    public QuizResponse checkAnswer(int id, Answer answer) {
+    public QuizResponse checkAnswer(Long id, Answer answer) {
         QuizResponse quizResponse = new QuizResponse();
-        Quiz quiz = quizRepository.findById(id);
+        Quiz quiz = quizRepository.findById(id).orElseThrow(() -> new QuizNotFoundException("Quiz with id " + id + " not found"));
         if (quiz == null) {
             throw new QuizNotFoundException("Quiz with id " + id + " not found");
         } else {
@@ -40,7 +38,7 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-    public List<Quiz> getQuizzes() {
-        return quizRepository.getAllQuizzes();
+    public Iterable<Quiz> getQuizzes() {
+        return quizRepository.findAll();
     }
 }

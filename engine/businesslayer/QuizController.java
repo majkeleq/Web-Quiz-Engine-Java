@@ -25,12 +25,12 @@ public class QuizController {
     }
 
     @GetMapping("/api/quizzes")
-    ResponseEntity<List<Quiz>> getQuizzes() {
+    ResponseEntity<Iterable<Quiz>> getQuizzes() {
         return ResponseEntity.ok(quizService.getQuizzes());
     }
 
     @GetMapping("/api/quizzes/{id}")
-    ResponseEntity<Quiz> getQuizz(@PathVariable int id) {
+    ResponseEntity<Quiz> getQuizz(@PathVariable Long id) {
         Quiz quiz = quizService.getQuizz(id);
         if (quiz == null) {
             throw new QuizNotFoundException("Quiz with id = " + id + " not found");
@@ -40,7 +40,7 @@ public class QuizController {
     }
 
     @PostMapping("/api/quizzes/{id}/solve")
-    ResponseEntity<QuizResponse> solveQuizz(@PathVariable int id, @RequestBody Answer answer) {
+    ResponseEntity<QuizResponse> solveQuizz(@PathVariable Long id, @RequestBody Answer answer) {
         QuizResponse quizResponse = quizService.checkAnswer(id, answer);
         if (quizResponse == null) {
             throw new QuizNotFoundException("Quiz with id " + id + " not found");
