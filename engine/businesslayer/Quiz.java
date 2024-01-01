@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "quizzes")
 public class Quiz {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
