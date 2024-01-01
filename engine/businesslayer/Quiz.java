@@ -1,26 +1,35 @@
 package engine.businesslayer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Entity
+@Table(name = "customers")
 public class Quiz {
-    private static int count = 0;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     @NotEmpty
     String title;
     @NotEmpty
     String text;
     @Size(min = 2)
     @NotNull
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     List<String> options;
     @JsonProperty(value = "answer", access = JsonProperty.Access.WRITE_ONLY)
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     List<Integer> answers;
 
     public Quiz() {
@@ -28,7 +37,6 @@ public class Quiz {
     }
 
     public Quiz(String title, String text, List<String> options, List<Integer> correctAnswer) {
-        id = ++count;
         this.title = title;
         this.text = text;
         this.options = options;
@@ -52,7 +60,6 @@ public class Quiz {
     }
 
     public void afterValidation() {
-        id = ++count;
         if (answers == null) {
             answers = new ArrayList<>();
         }
