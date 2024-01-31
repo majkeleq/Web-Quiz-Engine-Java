@@ -1,5 +1,7 @@
-package engine.businesslayer;
+package engine.businesslayer.Quiz;
 
+import engine.businesslayer.Quiz.Quiz;
+import engine.businesslayer.Quiz.QuizResponse;
 import engine.exceptions.QuizNotFoundException;
 import engine.persistancelayer.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;

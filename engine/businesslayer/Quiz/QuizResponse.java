@@ -1,4 +1,4 @@
-package engine.businesslayer;
+package engine.businesslayer.Quiz;
 
 import org.springframework.stereotype.Component;
 
