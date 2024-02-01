@@ -1,4 +1,4 @@
-package engine.businesslayer;
+package engine.businesslayer.Quiz;
 
 import engine.businesslayer.Quiz.Answer;
 import engine.businesslayer.Quiz.Quiz;
