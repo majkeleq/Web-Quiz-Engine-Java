@@ -3,13 +3,19 @@ package engine.businesslayer.User;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue
     private Integer id;
+
     private String username;
+
     private String password;
 
     public Integer getId() {

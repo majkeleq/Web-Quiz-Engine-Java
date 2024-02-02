@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @RestController
 public class UserController {
 
@@ -18,13 +23,17 @@ public class UserController {
     }
 
     @PostMapping(path = "/api/register")
-    public String register(@RequestBody RegistrationRequest request) {
-        var user = new User();
-        user.setUsername(request.username());
-        user.setPassword(passwordEncoder.encode(request.password()));
+    public String register(@Valid @RequestBody UserDTO request) {
+        var user = convertDTOToUser(request);
         repository.save(user);
 
         return "New user successfully registered";
     }
-    record RegistrationRequest(String username, String password) { }
+
+    User convertDTOToUser(UserDTO dto) {
+        var user = new User();
+        user.setUsername(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        return user;
+    }
 }
