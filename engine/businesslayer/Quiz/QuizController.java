@@ -4,9 +4,12 @@ import engine.businesslayer.Quiz.Answer;
 import engine.businesslayer.Quiz.Quiz;
 import engine.businesslayer.Quiz.QuizResponse;
 import engine.businesslayer.Quiz.QuizService;
+import engine.businesslayer.User.UserAdapter;
 import engine.exceptions.QuizNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,8 +27,9 @@ public class QuizController {
 
 
     @PostMapping("/api/quizzes")
-    ResponseEntity<Quiz> addQuizz(@Valid @RequestBody Quiz quiz) {
+    ResponseEntity<Quiz> addQuizz(@Valid @RequestBody Quiz quiz, @AuthenticationPrincipal UserAdapter userAdapter) {
         quiz.afterValidation();
+        quiz.setUser(userAdapter.getUser());
         return ResponseEntity.ok(quizService.save(quiz));
     }
 
