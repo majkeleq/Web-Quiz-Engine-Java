@@ -2,7 +2,9 @@ package engine.businesslayer.Quiz;
 
 import engine.businesslayer.Quiz.Quiz;
 import engine.businesslayer.Quiz.QuizResponse;
+import engine.businesslayer.User.UserAdapter;
 import engine.exceptions.QuizNotFoundException;
+import engine.exceptions.UnauthorizedQuizDeleteException;
 import engine.persistancelayer.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,5 +44,20 @@ public class QuizService {
 
     public Iterable<Quiz> getQuizzes() {
         return quizRepository.findAll();
+    }
+
+    public QuizResponse deleteQuiz(Long id, UserAdapter userAdapter) {
+        QuizResponse quizResponse = new QuizResponse();
+        Quiz quiz = quizRepository.findById(id).orElseThrow(() -> new QuizNotFoundException("Quiz with id " + id + " not found"));
+        if(quiz.getUser().getId().equals(userAdapter.getUser().getId())) {
+            quizRepository.delete(quiz);
+            quizResponse.setSuccess(true);
+            quizResponse.setFeedback("Quiz deleted");
+            return quizResponse;
+        } else {
+            quizResponse.setSuccess(false);
+            quizResponse.setFeedback("Unauthorized");
+            return quizResponse;
+        }
     }
 }

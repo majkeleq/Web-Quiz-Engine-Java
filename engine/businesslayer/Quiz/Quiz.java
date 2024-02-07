@@ -35,7 +35,7 @@ public class Quiz {
     List<Integer> answers;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     User user;
 
     public Quiz() {
