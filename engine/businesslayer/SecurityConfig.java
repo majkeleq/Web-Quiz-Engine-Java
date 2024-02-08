@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .csrf(configurer -> configurer.disable())
                 .authorizeHttpRequests(auth -> auth
                         .antMatchers("/api/register").permitAll()
+                        .antMatchers("/actuator/shutdown").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
