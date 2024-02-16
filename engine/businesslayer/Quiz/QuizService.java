@@ -7,6 +7,8 @@ import engine.exceptions.QuizNotFoundException;
 import engine.exceptions.UnauthorizedQuizDeleteException;
 import engine.persistancelayer.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,8 +44,8 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-    public Iterable<Quiz> getQuizzes() {
-        return quizRepository.findAll();
+    public Page<Quiz> getQuizzes(Integer page) {
+        return quizRepository.findAll(PageRequest.of(page, 10));
     }
 
     public QuizResponse deleteQuiz(Long id, UserAdapter userAdapter) {

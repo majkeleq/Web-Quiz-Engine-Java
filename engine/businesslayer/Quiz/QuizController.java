@@ -34,8 +34,8 @@ public class QuizController {
     }
 
     @GetMapping("/api/quizzes")
-    ResponseEntity<Iterable<Quiz>> getQuizzes() {
-        return ResponseEntity.ok(quizService.getQuizzes());
+    ResponseEntity<Iterable<Quiz>> getQuizzes(@RequestParam Integer page) {
+        return ResponseEntity.ok(quizService.getQuizzes(page));
     }
 
     @GetMapping("/api/quizzes/{id}")
