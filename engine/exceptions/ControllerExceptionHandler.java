@@ -20,4 +20,13 @@ public class ControllerExceptionHandler {
                 request.getDescription(false));
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(UnauthorizedQuizDeleteException.class)
+    public ResponseEntity<CustomErrorMessage> handleUnauthorizedQuizDelete(UnauthorizedQuizDeleteException e,
+                                                                 WebRequest request) {
+        CustomErrorMessage body = new CustomErrorMessage(403,
+                LocalDateTime.now(),
+                e.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(body,HttpStatus.valueOf(403));
+    }
 }

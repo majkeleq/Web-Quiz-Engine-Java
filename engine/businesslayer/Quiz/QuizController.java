@@ -1,16 +1,24 @@
-package engine.businesslayer;
+package engine.businesslayer.Quiz;
 
+import engine.businesslayer.Quiz.Answer;
+import engine.businesslayer.Quiz.Quiz;
+import engine.businesslayer.Quiz.QuizResponse;
+import engine.businesslayer.Quiz.QuizService;
+import engine.businesslayer.User.UserAdapter;
 import engine.exceptions.QuizNotFoundException;
+import engine.exceptions.UnauthorizedQuizDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class QuizController {
     QuizService quizService;
+
 
     @Autowired
     public QuizController(QuizService quizService) {
@@ -19,8 +27,9 @@ public class QuizController {
 
 
     @PostMapping("/api/quizzes")
-    ResponseEntity<Quiz> addQuizz(@Valid @RequestBody Quiz quiz) {
+    ResponseEntity<Quiz> addQuizz(@Valid @RequestBody Quiz quiz, @AuthenticationPrincipal UserAdapter userAdapter) {
         quiz.afterValidation();
+        quiz.setUser(userAdapter.getUser());
         return ResponseEntity.ok(quizService.save(quiz));
     }
 
@@ -42,10 +51,17 @@ public class QuizController {
     @PostMapping("/api/quizzes/{id}/solve")
     ResponseEntity<QuizResponse> solveQuizz(@PathVariable Long id, @RequestBody Answer answer) {
         QuizResponse quizResponse = quizService.checkAnswer(id, answer);
-        if (quizResponse == null) {
-            throw new QuizNotFoundException("Quiz with id " + id + " not found");
+        return ResponseEntity.ok(quizResponse);
+
+    }
+
+    @DeleteMapping("/api/quizzes/{id}")
+    ResponseEntity<Void> deleteQuizz(@PathVariable Long id, @AuthenticationPrincipal UserAdapter userAdapter) {
+        QuizResponse quizResponse = quizService.deleteQuiz(id, userAdapter);
+        if (quizResponse.isSuccess()) {
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.ok(quizResponse);
+            throw new UnauthorizedQuizDeleteException("Unauthorized Access");
         }
     }
 }

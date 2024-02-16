@@ -1,6 +1,8 @@
-package engine.businesslayer;
+package engine.businesslayer.Quiz;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import engine.businesslayer.User.User;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -31,6 +33,10 @@ public class Quiz {
     @ElementCollection(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     List<Integer> answers;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
 
     public Quiz() {
 
@@ -57,6 +63,14 @@ public class Quiz {
 
     public List<Integer> getAnswers() {
         return answers;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void afterValidation() {
