@@ -1,5 +1,6 @@
 package engine.businesslayer.User;
 
+import engine.businesslayer.Quiz.Completion;
 import engine.businesslayer.Quiz.Quiz;
 
 import javax.persistence.*;
@@ -19,6 +20,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval=true)
     private List<Quiz> quizzes = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval=true)
+    private List<Completion> completions = new ArrayList<>();
 
     public Integer getId() {
         return id;

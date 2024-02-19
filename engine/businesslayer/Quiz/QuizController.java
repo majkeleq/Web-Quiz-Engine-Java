@@ -49,8 +49,8 @@ public class QuizController {
     }
 
     @PostMapping("/api/quizzes/{id}/solve")
-    ResponseEntity<QuizResponse> solveQuizz(@PathVariable Long id, @RequestBody Answer answer) {
-        QuizResponse quizResponse = quizService.checkAnswer(id, answer);
+    ResponseEntity<QuizResponse> solveQuizz(@PathVariable Long id, @RequestBody Answer answer, @AuthenticationPrincipal UserAdapter userAdapter) {
+        QuizResponse quizResponse = quizService.checkAnswer(id, answer, userAdapter.getUser());
         return ResponseEntity.ok(quizResponse);
 
     }
