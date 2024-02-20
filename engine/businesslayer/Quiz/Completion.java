@@ -25,6 +25,7 @@ public class Completion {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(TemporalType.TIMESTAMP)
     private Date completedAt;
 

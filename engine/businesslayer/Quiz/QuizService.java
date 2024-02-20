@@ -8,6 +8,7 @@ import engine.persistancelayer.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -68,5 +69,8 @@ public class QuizService {
             quizResponse.setFeedback("Unauthorized");
             return quizResponse;
         }
+    }
+    public Page<Completion> getCompletions(Integer page, UserAdapter userAdapter) {
+        return completionsRepository.findByUser_Id(userAdapter.getUser().getId(),PageRequest.of(page, 10, Sort.by("completedAt").descending()));
     }
 }

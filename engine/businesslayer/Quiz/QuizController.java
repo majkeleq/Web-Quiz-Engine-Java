@@ -8,6 +8,7 @@ import engine.businesslayer.User.UserAdapter;
 import engine.exceptions.QuizNotFoundException;
 import engine.exceptions.UnauthorizedQuizDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class QuizController {
     }
 
     @GetMapping("/api/quizzes")
-    ResponseEntity<Iterable<Quiz>> getQuizzes(@RequestParam Integer page) {
+    ResponseEntity<Page<Quiz>> getQuizzes(@RequestParam Integer page) {
         return ResponseEntity.ok(quizService.getQuizzes(page));
     }
 
@@ -63,5 +64,10 @@ public class QuizController {
         } else {
             throw new UnauthorizedQuizDeleteException("Unauthorized Access");
         }
+    }
+
+    @GetMapping("/api/quizzes/completed")
+    ResponseEntity<Page<Completion>> getCompleted(@RequestParam Integer page, @AuthenticationPrincipal UserAdapter userAdapter) {
+        return ResponseEntity.ok(quizService.getCompletions(page, userAdapter));
     }
 }
