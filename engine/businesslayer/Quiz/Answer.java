@@ -1,4 +1,4 @@
-package engine.businesslayer;
+package engine.businesslayer.Quiz;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,6 +1,8 @@
-package engine.businesslayer;
+package engine.businesslayer.Quiz;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import engine.businesslayer.User.User;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -17,20 +19,26 @@ public class Quiz {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @NotEmpty
-    String title;
+    private String title;
     @NotEmpty
-    String text;
+    private String text;
     @Size(min = 2)
     @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
-    List<String> options;
+    private List<String> options;
     @JsonProperty(value = "answer", access = JsonProperty.Access.WRITE_ONLY)
     @ElementCollection(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
-    List<Integer> answers;
+    private List<Integer> answers;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE, orphanRemoval=true)
+    private List<Completion> completions = new ArrayList<>();
 
     public Quiz() {
 
@@ -41,6 +49,10 @@ public class Quiz {
         this.text = text;
         this.options = options;
         this.answers = correctAnswer;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -57,6 +69,14 @@ public class Quiz {
 
     public List<Integer> getAnswers() {
         return answers;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void afterValidation() {
