@@ -1,5 +1,6 @@
 package engine.businesslayer.User;
 
+import engine.businesslayer.Quiz.Completion;
 import engine.businesslayer.Quiz.Quiz;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(unique = true)
     private String username;
@@ -19,12 +20,14 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval=true)
     private List<Quiz> quizzes = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval=true)
+    private List<Completion> completions = new ArrayList<>();
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

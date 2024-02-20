@@ -19,24 +19,26 @@ public class Quiz {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @NotEmpty
-    String title;
+    private String title;
     @NotEmpty
-    String text;
+    private String text;
     @Size(min = 2)
     @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
-    List<String> options;
+    private List<String> options;
     @JsonProperty(value = "answer", access = JsonProperty.Access.WRITE_ONLY)
     @ElementCollection(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
-    List<Integer> answers;
+    private List<Integer> answers;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE, orphanRemoval=true)
+    private List<Completion> completions = new ArrayList<>();
 
     public Quiz() {
 
@@ -47,6 +49,10 @@ public class Quiz {
         this.text = text;
         this.options = options;
         this.answers = correctAnswer;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
