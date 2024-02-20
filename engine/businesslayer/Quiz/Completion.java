@@ -12,20 +12,16 @@ import java.util.Date;
 @Entity
 @Table(name = "completions")
 public class Completion {
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
-    @JsonProperty(value = "id",access = JsonProperty.Access.READ_ONLY)
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(TemporalType.TIMESTAMP)
     private Date completedAt;
 

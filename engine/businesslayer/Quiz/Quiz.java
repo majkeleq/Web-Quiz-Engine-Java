@@ -51,6 +51,10 @@ public class Quiz {
         this.answers = correctAnswer;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }

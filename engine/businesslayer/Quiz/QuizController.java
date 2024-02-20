@@ -8,6 +8,7 @@ import engine.businesslayer.User.UserAdapter;
 import engine.exceptions.QuizNotFoundException;
 import engine.exceptions.UnauthorizedQuizDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.function.Function;
 
 @RestController
 public class QuizController {
@@ -67,7 +69,12 @@ public class QuizController {
     }
 
     @GetMapping("/api/quizzes/completed")
-    ResponseEntity<Page<Completion>> getCompleted(@RequestParam Integer page, @AuthenticationPrincipal UserAdapter userAdapter) {
-        return ResponseEntity.ok(quizService.getCompletions(page, userAdapter));
+    ResponseEntity<Page<CompletionDTO>> getCompleted(@RequestParam Integer page, @AuthenticationPrincipal UserAdapter userAdapter) {
+        Page<CompletionDTO> completionPage = quizService.getCompletions(page, userAdapter).map(completion -> {
+            CompletionDTO dto = new CompletionDTO(completion.getQuiz().getId(), completion.getCompletedAt());
+            return dto;
+
+        });
+        return ResponseEntity.ok(completionPage);
     }
 }
